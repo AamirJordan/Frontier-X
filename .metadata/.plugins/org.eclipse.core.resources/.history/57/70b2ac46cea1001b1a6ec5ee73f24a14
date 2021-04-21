@@ -1,0 +1,72 @@
+package frontierX.scripts;
+
+import java.util.Scanner;
+
+import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
+import org.testng.Reporter;
+import org.testng.annotations.Test;
+
+import frontierX.pages.BasicSettings;
+import frontierX.pages.HomePage;
+import frontierX.pages.LoginPage;
+
+public class TrainingLoad extends BasicSettings {
+
+	@Test
+	public void trainingLoad() {
+		
+		Scanner s = new Scanner(System.in);
+		
+	      System.out.println("Enter the user for which you want to automate : ");
+	      String aut = s.next();
+	      
+	    if (aut.equalsIgnoreCase("admin") || aut.equalsIgnoreCase("doctor") || aut.equalsIgnoreCase("premium")
+	    		|| aut.equalsIgnoreCase("user")) {
+			
+			
+			WebDriver driver = setUp();
+			LoginPage lp = new LoginPage(driver);
+			HomePage hp = null ;
+			
+			if (aut.equalsIgnoreCase("admin")) {
+				hp = lp.login("admin@fourthfrontier.com", "automation4f");
+			}
+			
+			else if (aut.equalsIgnoreCase("doctor")) {
+				hp = lp.login("doctor@fourthfrontier.com", "automation4f");
+			}
+			
+			else if (aut.equalsIgnoreCase("premium")) {
+				hp = lp.login("premium@fourthfrontier.com", "automation4f");
+			}
+			
+			else if (aut.equalsIgnoreCase("user")) {
+				hp = lp.login("user@fourthfrontier.com", "automation4f");
+			}
+			
+			else {
+				System.out.println("Invalid user name. Please enter valid user name");
+			}
+			
+			
+			System.out.println(aut + "'s Training Load : " + hp.trainingLoad());
+			System.out.println(aut + "'s Training Load Percent : " + hp.trainingLoadPercent());
+			mySleepInSeconds(2);
+			hp.clickOnTrainingLoadDownArrow();
+			mySleepInSeconds(5);
+			hp.clickOnTrainingLoadUpArrow();
+			mySleepInSeconds(2);
+			driver.close();
+	    	
+		}
+	    
+	    
+	    else {
+	    	Assert.fail("User is Invalid. Please enter valid user");
+		}
+
+		
+	}
+	
+}
